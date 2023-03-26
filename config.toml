@@ -1,5 +1,5 @@
 # Basic config
-baseURL = "https://example.com"
+baseURL = "https://geovannig.github.io"
 theme = "hugo-bearcub"
 copyright = "Geovanni Gonzalez (CC BY 4.0)"
 defaultContentLanguage = "en"
