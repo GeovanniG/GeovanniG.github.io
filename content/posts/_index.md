@@ -5,3 +5,5 @@ menu: "main"
 weight: 2
 draft: false
 ---
+
+A collection of all posts.
