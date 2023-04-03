@@ -1,11 +1,13 @@
 ---
 title: "Dry Patterns in ASP.NET, Removing Boilerplate Code"
-date: 2023-03-26T16:25:35-07:00
-draft: true
+date: 2023-04-02T16:25:35-07:00
+draft: false
 ---
 
 # Dry Patterns in ASP.NET, Removing Boilerplate Code
-Let’s discuss patterns to help keep your ASP.NET code nice and DRY. In most applications, there is code that is normally copied and pasted into multiple locations within the codebase. We refer to this code as boilerplate code.
+Let’s discuss patterns to help keep your ASP.NET code nice and DRY. 
+
+In most applications, there is code that is normally copied and pasted into multiple locations within the codebase. We refer to this code as boilerplate code.
 
 In this article, I would like to discuss techniques to remove this boilerplate code and centralize it into as few locations as possible.
 
@@ -62,7 +64,7 @@ There's a lot more to be said about middleware. We can create our own, or use ma
 ## Filters
 Another option to remove boilerplate code is to use Filters. What separates a filter from middleware is that a filter can be applied on an as-needed basis. They do not need to be applied globally -- unlike Middleware, although they can be -- but are normally applied on certain action methods or controllers as needed.
 
-For example, the following filter can validate if the user is a certain age. It uses reflection and assumes the controller has a paramater named ```age```:
+For example, the following filter can validate if the user is a certain age. It uses reflection and assumes the controller has a paramater named ``age``:
 ```
 public class VerifyAgeFilter : ActionFilterAttribute
 {
@@ -103,7 +105,7 @@ One downside, or upside depending on how you look at it, is that middleware and 
 
 For example, if we apply a filter an action method, the filter does not have access to parameters or data within the method. The only workaround is to use reflection, like we did in the above example, but doing so will make our filter less reusable and make the code more cumbersome to work with.
 
-A great alternative to this situation is to use higher-order functions. The above method can be transformed into the following and wrapped in a ```Func```:
+A great alternative to this situation is to use higher-order functions. The above method can be transformed into the following and wrapped in a ``Func``:
 ```
 public IActionResult VerifyAge(int age, Func< IActionResult> func)
 {
@@ -124,10 +126,52 @@ public IActionResult Index(string name, int age)
     VerifyAge(age, () => View());
 }
 ```
-This technique does take some time to get used to but allows you to take full advantage of type safety features. 
+This technique does take some time to get used to but allows you to take full advantage of type safety features.
+
+## Records
+One last technique to remove boilerplate code is to use ``records``, introduced in C# 9. ``records`` remove the need to declare properties within the ``record`` and allow you to specify them upfront when creating the ``record``. 
+
+For example, say we have a ``Person`` ``class`` such as the following:
+
+```
+public class Person 
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public int Age { get; set; }
+}
+```
+
+As a ```record```, it can be transformed into
+
+```
+public record Person(string FirstName, string LastName, int Age);
+```
+
+Now, these 2 representations are not 100% equivalent, as ```records``` are immutable by default, however, when your ``class`` is immutable by design, ```records``` are a great alternative.
+
+Note: One great thing to look out for in C# 12 is partial constructors. Partial constructors will allow us to represent ``Person`` as:
+```
+public class Person(string FirstName, string LastName, int Age);
+```
+And will even allow us to inject interfaces into partial constructors:
+```
+public class Car(ITire Tire);
+```
+This is a feature I am looking forward to, as it removes the need to declare private readonly variables for all injected services:
+```
+private readonly ITire _tire;
+
+public class Car(ITire tire)
+{
+    _tire = tire;
+}
+```
 
 ## Conclusion
 
-In this article we described 3 techniques to remove boilerplate code. The less boilerplate code we have in our applications, the easier it will be to read and maintain. 
+In this article we described 4 techniques to remove boilerplate code. The less boilerplate code we have in our applications, the easier it will be to read and maintain. 
 
-If you have anymore techniques to reduce boilerplate code, please let us know. We really do enjoy learning new techniques to help keep our code DRY.
+If you have anymore techniques to reduce boilerplate code, please let us know.
+
+Thanks for reading!
