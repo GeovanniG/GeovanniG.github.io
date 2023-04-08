@@ -4,7 +4,6 @@ date: 2023-04-02T16:25:35-07:00
 draft: false
 ---
 
-# Dry Patterns in ASP.NET, Removing Boilerplate Code
 Let’s discuss patterns to help keep your ASP.NET code nice and DRY. 
 
 In most applications, there is code that is normally copied and pasted into multiple locations within the codebase. We refer to this code as boilerplate code.
