@@ -1,12 +1,12 @@
 ---
 title: "What to Log"
-date: 2023-04-07T19:41:09-07:00
-draft: true
+date: 2023-04-09T19:41:09-07:00
+draft: false
 ---
 
-Many web frameworks have the ability to log application and user events details. However, very few explain what information should be logged. In this article, we will discuss what information is useful to log, and which information should not be logged. 
+Many web frameworks have the ability to log application and user event data. However, very few explain what information should be logged. In this article, we will discuss what information is useful to log and what information should never be logged. 
 
-However, before we begin that discussion, let us take a quick detour and start with integrating logging into ASP.NET applications.
+Before we begin our discussion, let us take a quick detour and start with integrating logging into ASP.NET applications.
 
 ## Logging in ASP.NET
 Some frameworks make it very easy to integrate logging. Fortunately, for us, ASP.NET is one of those frameworks. 
@@ -27,7 +27,7 @@ The code preceding code above will add the following logging providers by defaul
 * EventSource
 * EventLog (Windows only).
 
-This is great as we have very little to do to get logging to work. Adding additional logging providers is just as easy:
+This is great as we have very little to do to get logging to work. Adding additional logging providers is also just as simple:
 ```
 var builder = WebApplication.CreateBuilder();
 builder.Host.ConfigureLogging(logging =>
@@ -44,22 +44,28 @@ And that's it, your application is ready to start logging events. Now that we ha
 
 ## What Information to Log
 
-To determine what information is useful to log, we must first determine what we would like to do with the data. Logging is useful because we can go back in time and replay events as they occurred. This is what makes logging useful. Most of the time, we need to go back in time because some issue occurred in our service.
+To determine what information to log, we must first determine what we would like to do with the logs. Logging is useful because we can go back in time and replay events as they occurred. Most of the time, we need to go back in time to diagnose some issue that occurred in our service.
 
-In other words, we should log any information that will help you later debug an issue. For example, say there was an issue with your text messaging service where user's are claiming that they are not receiving messages.
+In other words, we should always log any information that will later help us debug an issue. 
 
-The first place to see if this is the case is the logs! The logs should have information on the paths taken for each application request. Only then can you determine if an error is actually occurring.
+For example, say there was an issue with our text messaging service where we are receiving compliants that messages are not being sent out.
 
-Continuing our text messaging example, if the service did receive the call but is erroring out, our logs should be have enough information to pinpoint the issue.
+The first place to verify this would be the logs! The logs should have enough information on the paths taken for each application request. This will allow us to track the exact path taken by the requests. Only then can you determine if an error is occurring.
+
+Continuing our text messaging example, if the service did receive the call but it is erroring out, our logs should be have enough information to pinpoint the root cause. Preferably, the logs should have the stacktrace, if there is any.
 
 In summary, we should log enough information to track the progression of an event and any exceptions that may be occurring.
 
 ## What Information Not to Log
 
-The question then becomes what should we not log. This is not always as straight-forward, as the more logs we have the better. However, if you log too much data, we will create extra noise that will distract us from the issue at hand. Therefore, we must find a balance.
+The question then becomes what should we not log. This is not always be as straightforward as the more logs we have the better. However, if we log too much data, we will create extra noise that will distract us from the issue at hand. Therefore, we must find a balance.
 
-However, one this that should never be logged is sensitive data, such as api keys and secrets.
+However, there is one thing that should never be logged and that is sensitive data. Sensitive data such as api keys and secrets should remain as secrets.
+
+Logs are widely and easily accessible by developers. Therefore, logs should never contain any sensitive, private, or personal information.
+
+Logs are for assisting in diagnosing issues and auditing application events, not for storing sensitive data.
 
 ## Summary
 
-Logging is crucial to the success of any application. It assists in recording the health of a service and can help in determine holes within the application. 
+Logging is crucial to the success of any application. They assist in recording the health of a service and can help in determine weaknesses within the application. Nonetheless, logs are not a place to store sensitive information. Sensitive information should be stored in secure areas, far away from application logs.
