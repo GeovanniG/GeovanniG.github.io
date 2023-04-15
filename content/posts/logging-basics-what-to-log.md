@@ -1,5 +1,5 @@
 ---
-title: "What to Log"
+title: "Logging Basics: What to log"
 date: 2023-04-09T19:41:09-07:00
 draft: false
 ---
