@@ -8,7 +8,7 @@ Many web frameworks have the ability to log application and user event data. How
 
 Before we begin our discussion, let us take a quick detour and start with integrating logging into ASP.NET applications.
 
-## Logging in ASP.NET
+## Logging in ASP.NET Core
 Some frameworks make it very easy to integrate logging. Fortunately, for us, ASP.NET is one of those frameworks. 
 
 In ASP.NET, logging is built-in by default. As soon as we create our [HostBuilder](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.host.createdefaultbuilder), default logging providers are registered into the application.

@@ -1,5 +1,5 @@
 ---
-title: "Dry Patterns in ASP.NET, Removing Boilerplate Code"
+title: "Dry Patterns in ASP.NET Core, Removing Boilerplate Code"
 date: 2023-04-02T16:25:35-07:00
 draft: false
 ---
