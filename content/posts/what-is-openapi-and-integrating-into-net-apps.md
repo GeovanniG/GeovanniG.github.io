@@ -53,7 +53,7 @@ dotnet new webapi
 the OpenAPI code is automatically integrated into our start up application code by default. How sweet is that!
 
 To elaborate more on how .NET 5+ does this, let us analyze the following code.
-```
+```csharp
 // Required only for minimal APIs
 builder.Services.AddEndpointsApiExplorer();
 

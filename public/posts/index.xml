@@ -8,5 +8,39 @@
     <language>en-US</language>
     <copyright>Geovanni Gonzalez (CC BY 4.0)</copyright>
     <lastBuildDate>Sat, 25 Mar 2023 19:34:21 -0700</lastBuildDate><atom:link href="https://geovannig.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Making .NET Web API Apps OpenAPI Compliant</title>
+      <link>https://geovannig.github.io/posts/what-is-openapi-and-integrating-into-net-apps/</link>
+      <pubDate>Sun, 16 Apr 2023 00:00:00 -0700</pubDate>
+      
+      <guid>https://geovannig.github.io/posts/what-is-openapi-and-integrating-into-net-apps/</guid>
+      <description>OpenAPI is a specification for building and documenting your RESTful APIs. By following the OpenAPI specification, your RESTful APIs are easier to understand, making them easily consumable by external applications.
+Easy Integration of OpenAPI For example, in ASP.NET, importing an API that follows the OpenAPI specification is as simple as clicking a few buttons.
+To import the API using Visual Studio 2022, we can right click our project and select Add -&amp;gt; Service Reference This will redirect us to Connected Reference tab, were we can add a Service Reference Once we fill out the details, a namespace with the classes and methods will be generated on our behalf.</description>
+    </item>
+    
+    <item>
+      <title>Logging Basics: What to log</title>
+      <link>https://geovannig.github.io/posts/logging-basics-what-to-log/</link>
+      <pubDate>Sun, 09 Apr 2023 19:41:09 -0700</pubDate>
+      
+      <guid>https://geovannig.github.io/posts/logging-basics-what-to-log/</guid>
+      <description>Many web frameworks have the ability to log application and user event data. However, very few explain what information should be logged. In this article, we will discuss what information is useful to log and what information should never be logged.
+Before we begin our discussion, let us take a quick detour and start with integrating logging into ASP.NET applications.
+Logging in ASP.NET Some frameworks make it very easy to integrate logging.</description>
+    </item>
+    
+    <item>
+      <title>Dry Patterns in ASP.NET, Removing Boilerplate Code</title>
+      <link>https://geovannig.github.io/posts/dry-patterns-in-asp-net/</link>
+      <pubDate>Sun, 02 Apr 2023 16:25:35 -0700</pubDate>
+      
+      <guid>https://geovannig.github.io/posts/dry-patterns-in-asp-net/</guid>
+      <description>Let’s discuss patterns to help keep your ASP.NET code nice and DRY.
+In most applications, there is code that is normally copied and pasted into multiple locations within the codebase. We refer to this code as boilerplate code.
+In this article, I would like to discuss techniques to remove this boilerplate code and centralize it into as few locations as possible.
+After all, if we ever do have to change the boilerplate code it&amp;rsquo;s better to change it in as few locations as possible.</description>
+    </item>
+    
   </channel>
 </rss>

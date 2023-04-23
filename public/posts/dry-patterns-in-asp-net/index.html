@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="images/favicon.png" />
+<title>Dry Patterns in ASP.NET, Removing Boilerplate Code | Software Bits</title>
+<meta name="title" content="Dry Patterns in ASP.NET, Removing Boilerplate Code" />
+<meta name="description" content="Let’s discuss patterns to help keep your ASP.NET code nice and DRY.
+In most applications, there is code that is normally copied and pasted into multiple locations within the codebase. We refer to this code as boilerplate code.
+In this article, I would like to discuss techniques to remove this boilerplate code and centralize it into as few locations as possible.
+After all, if we ever do have to change the boilerplate code it&rsquo;s better to change it in as few locations as possible." />
+<meta name="keywords" content="" />
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Dry Patterns in ASP.NET, Removing Boilerplate Code" />
+<meta property="og:description" content="Let’s discuss patterns to help keep your ASP.NET code nice and DRY.
+In most applications, there is code that is normally copied and pasted into multiple locations within the codebase. We refer to this code as boilerplate code.
+In this article, I would like to discuss techniques to remove this boilerplate code and centralize it into as few locations as possible.
+After all, if we ever do have to change the boilerplate code it&rsquo;s better to change it in as few locations as possible." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://geovannig.github.io/posts/dry-patterns-in-asp-net/" />
+
+<meta property="og:image" content="https://geovannig.github.io/images/social_card_bg_hu0f7c7fe460ec4b5e9751ccb8d9c9aa0f_651110_bc7d6f1a45996136be58c6c530de564e.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-02T16:25:35-07:00" />
+<meta property="article:modified_time" content="2023-04-02T16:25:35-07:00" /><meta property="og:site_name" content="Software Bits" />
+
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://geovannig.github.io/images/social_card_bg_hu0f7c7fe460ec4b5e9751ccb8d9c9aa0f_651110_bc7d6f1a45996136be58c6c530de564e.webp"/>
+
+<meta name="twitter:title" content="Dry Patterns in ASP.NET, Removing Boilerplate Code"/>
+<meta name="twitter:description" content="Let’s discuss patterns to help keep your ASP.NET code nice and DRY.
+In most applications, there is code that is normally copied and pasted into multiple locations within the codebase. We refer to this code as boilerplate code.
+In this article, I would like to discuss techniques to remove this boilerplate code and centralize it into as few locations as possible.
+After all, if we ever do have to change the boilerplate code it&rsquo;s better to change it in as few locations as possible."/>
+<meta name="twitter:site" content="@example"/>
+
+
+<meta itemprop="name" content="Dry Patterns in ASP.NET, Removing Boilerplate Code">
+<meta itemprop="description" content="Let’s discuss patterns to help keep your ASP.NET code nice and DRY.
+In most applications, there is code that is normally copied and pasted into multiple locations within the codebase. We refer to this code as boilerplate code.
+In this article, I would like to discuss techniques to remove this boilerplate code and centralize it into as few locations as possible.
+After all, if we ever do have to change the boilerplate code it&rsquo;s better to change it in as few locations as possible."><meta itemprop="datePublished" content="2023-04-02T16:25:35-07:00" />
+<meta itemprop="dateModified" content="2023-04-02T16:25:35-07:00" />
+<meta itemprop="wordCount" content="986">
+
+<meta itemprop="image" content="https://geovannig.github.io/images/social_card_bg_hu0f7c7fe460ec4b5e9751ccb8d9c9aa0f_651110_bc7d6f1a45996136be58c6c530de564e.webp"/>
+
+
+<meta itemprop="keywords" content="" />
+
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+  <link href="/style.min.css" rel="stylesheet">
+
+  
+  <link href="/syntax.min.css" rel="stylesheet">
+
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title"><h2>Software Bits</h2></a>
+<nav>
+  <a href="/">Home</a>
+
+  <a href="/posts/">Posts</a>
+
+
+<a href='mailto:geog714@gmail.com?subject=Reply%20to%20"Dry%20Patterns%20in%20ASP.NET%2c%20Removing%20Boilerplate%20Code"'>Email</a>
+
+<a href="/posts/index.xml">RSS</a>
+
+
+
+
+
+
+
+  
+    
+    
+      <a class="disabled" role="link" aria-disabled="true">pt-BR 🇧🇷</a>
+    
+  
+
+</nav>
+</header>
+  <main>
+
+<h1>Dry Patterns in ASP.NET, Removing Boilerplate Code</h1>
+<p>
+  <i>
+    <time datetime='2023-04-02' pubdate>
+      2023-04-02
+    </time>
+  </i>
+</p>
+
+<content>
+  <p>Let’s discuss patterns to help keep your ASP.NET code nice and DRY.</p>
+<p>In most applications, there is code that is normally copied and pasted into multiple locations within the codebase. We refer to this code as boilerplate code.</p>
+<p>In this article, I would like to discuss techniques to remove this boilerplate code and centralize it into as few locations as possible.</p>
+<p>After all, if we ever do have to change the boilerplate code it&rsquo;s better to change it in as few locations as possible. This not only reduces the likelihood of introducing new bugs, but also makes all developers’ lives easier by improving the codebases’ readability and maintainability.</p>
+<h2 id="middleware">Middleware</h2>
+<p>Our first technique to reduce boilerplate code is to add the code as middleware.</p>
+<p>Functionality added as middleware will execute on each and every request made to your application. As a result, if you have code that should be executed for every request, a great location for this code would be in the middleware.</p>
+<p>Common functionality that is normally added to middleware includes exception handling and logging.</p>
+<p>ASP.NET makes this very simple by providing built in middleware for such cases:</p>
+<pre tabindex="0"><code>// If an unhandled exception occurs in the subsequent middleware components, the middleware will catch the exception, log it, and return a custom error response with the URL /error.
+app.UseExceptionHandler(&#34;/error&#34;);
+
+// The middleware will log information about the incoming request and the outgoing response, as well as any other information that you want to log.
+app.UseLogging();
+</code></pre><p>This removes the need to add try/catch blocks to each and every controller:</p>
+<pre tabindex="0"><code>public bool TestEndpoint()
+{
+    try 
+    {
+        // do something
+        return true;
+    }
+    catch (Exception ex)
+    {
+        _log.LogError(ex, &#34;Meaningful message&#34;);
+    }
+    return false;
+}
+</code></pre><p>and can be replaced with the following:</p>
+<pre tabindex="0"><code>public bool TestEndpoint()
+{
+    // do something
+    return true;
+}
+</code></pre><p>This keeps your controllers lightweight and gives them a more defined purpose as they no longer have to deal with exception handling.</p>
+<p>There&rsquo;s a lot more to be said about middleware. We can create our own, or use many of the other built-in middlewares provided. But the key takeaway is, if the code needs to execute for every request, the best place for that code to reside would be as middleware.</p>
+<h2 id="filters">Filters</h2>
+<p>Another option to remove boilerplate code is to use Filters. What separates a filter from middleware is that a filter can be applied on an as-needed basis. They do not need to be applied globally &ndash; unlike Middleware, although they can be &ndash; but are normally applied on certain action methods or controllers as needed.</p>
+<p>For example, the following filter can validate if the user is a certain age. It uses reflection and assumes the controller has a paramater named <code>age</code>:</p>
+<pre tabindex="0"><code>public class VerifyAgeFilter : ActionFilterAttribute
+{
+    public override void OnActionExecuting(ActionExecutingContext context)
+    {
+        // Check if age parameter is present
+        if (context.ActionArguments.ContainsKey(&#34;age&#34;))
+        {
+            // Get the value of age parameter
+            var age = (int)context.ActionArguments[&#34;age&#34;];
+            // Verify that age is greater than 18
+            if (age &lt; 18)
+            {
+                // Return an error message
+                context.Result = new ContentResult()
+                {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = &#34;Age must be greater than 18&#34;
+                };
+                return;
+            }
+        }
+
+        base.OnActionExecuting(context);
+    }
+}
+
+[VerifyAgeFilter]
+public IActionResult Index(string name, int age)
+{
+    return View();
+}
+</code></pre><p>This filter serves a specific purpose, but filters can be made as generic or specialized as needed and applied accordingly.</p>
+<h2 id="higher-order-functions">Higher-Order Functions</h2>
+<p>One downside, or upside depending on how you look at it, is that middleware and filters do not have direct access to the code in which they are decorating.</p>
+<p>For example, if we apply a filter an action method, the filter does not have access to parameters or data within the method. The only workaround is to use reflection, like we did in the above example, but doing so will make our filter less reusable and make the code more cumbersome to work with.</p>
+<p>A great alternative to this situation is to use higher-order functions. The above method can be transformed into the following and wrapped in a <code>Func</code>:</p>
+<pre tabindex="0"><code>public IActionResult VerifyAge(int age, Func&lt; IActionResult&gt; func)
+{
+    if (age &lt; 18)
+    {
+        // Return an error message
+        return context.Result = new ContentResult()
+        {
+            StatusCode = (int)HttpStatusCode.BadRequest,
+            Content = &#34;Age must be greater than 18&#34;
+        };
+    }
+    return func();
+}
+
+public IActionResult Index(string name, int age)
+{
+    VerifyAge(age, () =&gt; View());
+}
+</code></pre><p>This technique does take some time to get used to but allows you to take full advantage of type safety features.</p>
+<h2 id="records">Records</h2>
+<p>One last technique to remove boilerplate code is to use <code>records</code>, introduced in C# 9. <code>records</code> remove the need to declare properties within the <code>record</code> and allow you to specify them upfront when creating the <code>record</code>.</p>
+<p>For example, say we have a <code>Person</code> <code>class</code> such as the following:</p>
+<pre tabindex="0"><code>public class Person 
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public int Age { get; set; }
+}
+</code></pre><p>As a <code>record</code>, it can be transformed into</p>
+<pre tabindex="0"><code>public record Person(string FirstName, string LastName, int Age);
+</code></pre><p>Now, these 2 representations are not 100% equivalent, as <code>records</code> are immutable by default, however, when your <code>class</code> is immutable by design, <code>records</code> are a great alternative.</p>
+<p>Note: One great thing to look out for in C# 12 is partial constructors. Partial constructors will allow us to represent <code>Person</code> as:</p>
+<pre tabindex="0"><code>public class Person(string FirstName, string LastName, int Age);
+</code></pre><p>And will even allow us to inject interfaces into partial constructors:</p>
+<pre tabindex="0"><code>public class Car(ITire Tire);
+</code></pre><p>This is a feature I am looking forward to, as it removes the need to declare private readonly variables for all injected services:</p>
+<pre tabindex="0"><code>private readonly ITire _tire;
+
+public class Car(ITire tire)
+{
+    _tire = tire;
+}
+</code></pre><h2 id="conclusion">Conclusion</h2>
+<p>In this article we described 4 techniques to remove boilerplate code. The less boilerplate code we have in our applications, the easier it will be to read and maintain.</p>
+<p>If you have anymore techniques to reduce boilerplate code, please let us know.</p>
+<p>Thanks for reading!</p>
+
+</content>
+<p>
+  
+</p>
+
+  </main>
+  <footer><small>
+  Geovanni Gonzalez (CC BY 4.0) | Made with <a href="https://github.com/clente/hugo-bearcub">Bear Cub</a>
+</small></footer>
+
+    
+</body>
+
+</html>

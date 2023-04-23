@@ -12,7 +12,7 @@ Before we begin our discussion, let us take a quick detour and start with integr
 Some frameworks make it very easy to integrate logging. Fortunately, for us, ASP.NET is one of those frameworks. 
 
 In ASP.NET, logging is built-in by default. As soon as we create our [HostBuilder](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.host.createdefaultbuilder), default logging providers are registered into the application.
-```
+```csharp
 using Microsoft.Extensions.Hosting;
 
 using IHost host = Host.CreateDefaultBuilder(args).Build();
@@ -28,7 +28,7 @@ The code preceding code above will add the following logging providers by defaul
 * EventLog (Windows only).
 
 This is great as we have very little to do to get logging to work. Adding additional logging providers is also just as simple:
-```
+```csharp
 var builder = WebApplication.CreateBuilder();
 builder.Host.ConfigureLogging(logging =>
 {

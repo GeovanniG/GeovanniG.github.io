@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="images/favicon.png" />
+<title>Making .NET Web API Apps OpenAPI Compliant | Software Bits</title>
+<meta name="title" content="Making .NET Web API Apps OpenAPI Compliant" />
+<meta name="description" content="OpenAPI is a specification for building and documenting your RESTful APIs. By following the OpenAPI specification, your RESTful APIs are easier to understand, making them easily consumable by external applications.
+Easy Integration of OpenAPI For example, in ASP.NET, importing an API that follows the OpenAPI specification is as simple as clicking a few buttons.
+To import the API using Visual Studio 2022, we can right click our project and select Add -&gt; Service Reference This will redirect us to Connected Reference tab, were we can add a Service Reference Once we fill out the details, a namespace with the classes and methods will be generated on our behalf." />
+<meta name="keywords" content="" />
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Making .NET Web API Apps OpenAPI Compliant" />
+<meta property="og:description" content="OpenAPI is a specification for building and documenting your RESTful APIs. By following the OpenAPI specification, your RESTful APIs are easier to understand, making them easily consumable by external applications.
+Easy Integration of OpenAPI For example, in ASP.NET, importing an API that follows the OpenAPI specification is as simple as clicking a few buttons.
+To import the API using Visual Studio 2022, we can right click our project and select Add -&gt; Service Reference This will redirect us to Connected Reference tab, were we can add a Service Reference Once we fill out the details, a namespace with the classes and methods will be generated on our behalf." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://geovannig.github.io/posts/what-is-openapi-and-integrating-into-net-apps/" />
+
+<meta property="og:image" content="https://geovannig.github.io/images/social_card_bg_hu0f7c7fe460ec4b5e9751ccb8d9c9aa0f_651110_0c799fc8cebdf565f4e4bc7c4df9b3a7.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-16T00:00:00-07:00" />
+<meta property="article:modified_time" content="2023-04-16T00:00:00-07:00" /><meta property="og:site_name" content="Software Bits" />
+
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://geovannig.github.io/images/social_card_bg_hu0f7c7fe460ec4b5e9751ccb8d9c9aa0f_651110_0c799fc8cebdf565f4e4bc7c4df9b3a7.webp"/>
+
+<meta name="twitter:title" content="Making .NET Web API Apps OpenAPI Compliant"/>
+<meta name="twitter:description" content="OpenAPI is a specification for building and documenting your RESTful APIs. By following the OpenAPI specification, your RESTful APIs are easier to understand, making them easily consumable by external applications.
+Easy Integration of OpenAPI For example, in ASP.NET, importing an API that follows the OpenAPI specification is as simple as clicking a few buttons.
+To import the API using Visual Studio 2022, we can right click our project and select Add -&gt; Service Reference This will redirect us to Connected Reference tab, were we can add a Service Reference Once we fill out the details, a namespace with the classes and methods will be generated on our behalf."/>
+<meta name="twitter:site" content="@example"/>
+
+
+<meta itemprop="name" content="Making .NET Web API Apps OpenAPI Compliant">
+<meta itemprop="description" content="OpenAPI is a specification for building and documenting your RESTful APIs. By following the OpenAPI specification, your RESTful APIs are easier to understand, making them easily consumable by external applications.
+Easy Integration of OpenAPI For example, in ASP.NET, importing an API that follows the OpenAPI specification is as simple as clicking a few buttons.
+To import the API using Visual Studio 2022, we can right click our project and select Add -&gt; Service Reference This will redirect us to Connected Reference tab, were we can add a Service Reference Once we fill out the details, a namespace with the classes and methods will be generated on our behalf."><meta itemprop="datePublished" content="2023-04-16T00:00:00-07:00" />
+<meta itemprop="dateModified" content="2023-04-16T00:00:00-07:00" />
+<meta itemprop="wordCount" content="482">
+
+<meta itemprop="image" content="https://geovannig.github.io/images/social_card_bg_hu0f7c7fe460ec4b5e9751ccb8d9c9aa0f_651110_0c799fc8cebdf565f4e4bc7c4df9b3a7.webp"/>
+
+
+<meta itemprop="keywords" content="" />
+
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+  <link href="/style.min.css" rel="stylesheet">
+
+  
+  <link href="/syntax.min.css" rel="stylesheet">
+
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title"><h2>Software Bits</h2></a>
+<nav>
+  <a href="/">Home</a>
+
+  <a href="/posts/">Posts</a>
+
+
+<a href='mailto:geog714@gmail.com?subject=Reply%20to%20"Making%20.NET%20Web%20API%20Apps%20OpenAPI%20Compliant"'>Email</a>
+
+<a href="/posts/index.xml">RSS</a>
+
+
+
+
+
+
+
+  
+    
+    
+      <a class="disabled" role="link" aria-disabled="true">pt-BR 🇧🇷</a>
+    
+  
+
+</nav>
+</header>
+  <main>
+
+<h1>Making .NET Web API Apps OpenAPI Compliant</h1>
+<p>
+  <i>
+    <time datetime='2023-04-16' pubdate>
+      2023-04-16
+    </time>
+  </i>
+</p>
+
+<content>
+  <p>OpenAPI is a specification for building and documenting your RESTful APIs. By following the OpenAPI specification, your RESTful APIs are easier to understand, making them easily consumable by external applications.</p>
+<h2 id="easy-integration-of-openapi">Easy Integration of OpenAPI</h2>
+<p>For example, in ASP.NET, importing an API that follows the OpenAPI specification is as simple as clicking a few buttons.</p>
+<p>To import the API using Visual Studio 2022, we can right click our project and select Add -&gt; Service Reference
+
+
+
+
+
+<div class="center">
+  <img
+    src="/what-is-openapi/what-is-openapi-and-integrating-into-net-apps.png"
+    alt="Screenshot of Visual Studio locating service reference option"
+    width="90%"
+    height="90%"
+    decoding="async"
+  />
+</div>
+
+<style>
+.center {
+  text-align: center;
+}
+</style></p>
+<p>This will redirect us to Connected Reference tab, were we can add a Service Reference
+
+
+
+
+
+<div class="center">
+  <img
+    src="/what-is-openapi/openapi-selection-option.png"
+    alt="Screenshot of service reference modal"
+    width="90%"
+    height="90%"
+    decoding="async"
+  />
+</div>
+
+<style>
+.center {
+  text-align: center;
+}
+</style></p>
+<p>Once we fill out the details,
+
+
+
+
+
+<div class="center">
+  <img
+    src="/what-is-openapi/openapi-selection-option-filled-out-details.png"
+    alt="Screenshot of service reference modal with details filled out"
+    width="90%"
+    height="90%"
+    decoding="async"
+  />
+</div>
+
+<style>
+.center {
+  text-align: center;
+}
+</style>
+a namespace with the classes and methods will be generated on our behalf.</p>
+<p>In the above example, we used the API service freely available on <a href="https://www.weather.gov/documentation/services-web-api">National Weather Service</a>. We gave our service reference a name of <code>Api.Weather.Gov</code>. If we look for this namespace in Object Browser, we can view all of the classes and methods generated for us!</p>
+
+
+
+
+
+<div class="center">
+  <img
+    src="/what-is-openapi/openapi-object-browser-generated-code.png"
+    alt="Screenshot of generated code from importing service reference"
+    width="90%"
+    height="90%"
+    decoding="async"
+  />
+</div>
+
+<style>
+.center {
+  text-align: center;
+}
+</style>
+<p>With this neat trick, much of the boilerplate code for integrating this API has been eliminated. In fact, most of it has been built for us!</p>
+<h2 id="making-a-net-web-api-openapi-compliant">Making a .NET Web API OpenAPI compliant</h2>
+<p>Making a .NET Web API adhere to OpenAPI specifications is also just as simple.</p>
+<p>In fact, starting with .NET 5, when we create a .NET Web API using either Visual Studio or</p>
+<pre tabindex="0"><code>dotnet new webapi
+</code></pre><p>the OpenAPI code is automatically integrated into our start up application code by default. How sweet is that!</p>
+<p>To elaborate more on how .NET 5+ does this, let us analyze the following code.</p>
+<pre tabindex="0"><code>// Required only for minimal APIs
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen();
+
+app.UseSwagger();
+app.UseSwaggerUI();
+</code></pre><p>In the above example, we are using Swashbuckle, which can be installed running either</p>
+<pre tabindex="0"><code>Install-Package Swashbuckle.AspNetCore -Version 6.2.3
+</code></pre><p>or</p>
+<pre tabindex="0"><code>dotnet add &lt;YOUR-PROJECT-NAME&gt;.csproj package Swashbuckle.AspNetCore -v 6.2.3
+</code></pre><p>With these minor additions, as soon as we start our application and go to /swagger, we will see a beautiful UI that documents our API.
+
+
+
+
+
+<div class="center">
+  <img
+    src="/what-is-openapi/generated-swagger-ui.png"
+    alt="Screenshot of generated swagger ui"
+    width="90%"
+    height="90%"
+    decoding="async"
+  />
+</div>
+
+<style>
+.center {
+  text-align: center;
+}
+</style></p>
+<p>Now, we have a standardized API with great documentation that others can easily understand. All updates made in the code will be auto-generated for us by this plugin. This makes it easier for external parties to understand our API, leading to potentially much greater adoption of our services.</p>
+<p>There&rsquo;s a lot more to be said about Swashbuckle. To learn how to customize it to your likings, I will redirect to to a well written <a href="https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-7.0&amp;tabs=visual-studio-code">article</a> by Microsoft.</p>
+<h2 id="summary">Summary</h2>
+<p>We covered the basics of OpenAPI and how it conforming to this specification makes consuming apps much easier. We showed how simple it is to integrate an API that adheres to OpenAPI into a .NET application. We also discussed how to make a your .NET Web API conform to OpenAPI.</p>
+<p>There is one main downside to OpenAPI that we did not mention. That is, OpenAPI is mainly applicable to RESTful services. In later articles, we will address alternative technologies and specification such as GraphQL.</p>
+<p>Until then, thanks for reading!</p>
+
+</content>
+<p>
+  
+</p>
+
+  </main>
+  <footer><small>
+  Geovanni Gonzalez (CC BY 4.0) | Made with <a href="https://github.com/clente/hugo-bearcub">Bear Cub</a>
+</small></footer>
+
+    
+</body>
+
+</html>

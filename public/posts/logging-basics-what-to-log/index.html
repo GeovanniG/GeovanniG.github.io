@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="images/favicon.png" />
+<title>Logging Basics: What to log | Software Bits</title>
+<meta name="title" content="Logging Basics: What to log" />
+<meta name="description" content="Many web frameworks have the ability to log application and user event data. However, very few explain what information should be logged. In this article, we will discuss what information is useful to log and what information should never be logged.
+Before we begin our discussion, let us take a quick detour and start with integrating logging into ASP.NET applications.
+Logging in ASP.NET Some frameworks make it very easy to integrate logging." />
+<meta name="keywords" content="" />
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Logging Basics: What to log" />
+<meta property="og:description" content="Many web frameworks have the ability to log application and user event data. However, very few explain what information should be logged. In this article, we will discuss what information is useful to log and what information should never be logged.
+Before we begin our discussion, let us take a quick detour and start with integrating logging into ASP.NET applications.
+Logging in ASP.NET Some frameworks make it very easy to integrate logging." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://geovannig.github.io/posts/logging-basics-what-to-log/" />
+
+<meta property="og:image" content="https://geovannig.github.io/images/social_card_bg_hu0f7c7fe460ec4b5e9751ccb8d9c9aa0f_651110_27e483398f5716132a90cddcafedbc71.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-09T19:41:09-07:00" />
+<meta property="article:modified_time" content="2023-04-09T19:41:09-07:00" /><meta property="og:site_name" content="Software Bits" />
+
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://geovannig.github.io/images/social_card_bg_hu0f7c7fe460ec4b5e9751ccb8d9c9aa0f_651110_27e483398f5716132a90cddcafedbc71.webp"/>
+
+<meta name="twitter:title" content="Logging Basics: What to log"/>
+<meta name="twitter:description" content="Many web frameworks have the ability to log application and user event data. However, very few explain what information should be logged. In this article, we will discuss what information is useful to log and what information should never be logged.
+Before we begin our discussion, let us take a quick detour and start with integrating logging into ASP.NET applications.
+Logging in ASP.NET Some frameworks make it very easy to integrate logging."/>
+<meta name="twitter:site" content="@example"/>
+
+
+<meta itemprop="name" content="Logging Basics: What to log">
+<meta itemprop="description" content="Many web frameworks have the ability to log application and user event data. However, very few explain what information should be logged. In this article, we will discuss what information is useful to log and what information should never be logged.
+Before we begin our discussion, let us take a quick detour and start with integrating logging into ASP.NET applications.
+Logging in ASP.NET Some frameworks make it very easy to integrate logging."><meta itemprop="datePublished" content="2023-04-09T19:41:09-07:00" />
+<meta itemprop="dateModified" content="2023-04-09T19:41:09-07:00" />
+<meta itemprop="wordCount" content="580">
+
+<meta itemprop="image" content="https://geovannig.github.io/images/social_card_bg_hu0f7c7fe460ec4b5e9751ccb8d9c9aa0f_651110_27e483398f5716132a90cddcafedbc71.webp"/>
+
+
+<meta itemprop="keywords" content="" />
+
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+  <link href="/style.min.css" rel="stylesheet">
+
+  
+  <link href="/syntax.min.css" rel="stylesheet">
+
+  
+
+  
+</head>
+
+<body>
+  <header><a href="/" class="title"><h2>Software Bits</h2></a>
+<nav>
+  <a href="/">Home</a>
+
+  <a href="/posts/">Posts</a>
+
+
+<a href='mailto:geog714@gmail.com?subject=Reply%20to%20"Logging%20Basics%3a%20What%20to%20log"'>Email</a>
+
+<a href="/posts/index.xml">RSS</a>
+
+
+
+
+
+
+
+  
+    
+    
+      <a class="disabled" role="link" aria-disabled="true">pt-BR 🇧🇷</a>
+    
+  
+
+</nav>
+</header>
+  <main>
+
+<h1>Logging Basics: What to log</h1>
+<p>
+  <i>
+    <time datetime='2023-04-09' pubdate>
+      2023-04-09
+    </time>
+  </i>
+</p>
+
+<content>
+  <p>Many web frameworks have the ability to log application and user event data. However, very few explain what information should be logged. In this article, we will discuss what information is useful to log and what information should never be logged.</p>
+<p>Before we begin our discussion, let us take a quick detour and start with integrating logging into ASP.NET applications.</p>
+<h2 id="logging-in-aspnet">Logging in ASP.NET</h2>
+<p>Some frameworks make it very easy to integrate logging. Fortunately, for us, ASP.NET is one of those frameworks.</p>
+<p>In ASP.NET, logging is built-in by default. As soon as we create our <a href="https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.host.createdefaultbuilder">HostBuilder</a>, default logging providers are registered into the application.</p>
+<pre tabindex="0"><code>using Microsoft.Extensions.Hosting;
+
+using IHost host = Host.CreateDefaultBuilder(args).Build();
+
+// Application code should start here.
+
+await host.RunAsync();
+</code></pre><p>The code preceding code above will add the following logging providers by default into the application:</p>
+<ul>
+<li>Console</li>
+<li>Debug</li>
+<li>EventSource</li>
+<li>EventLog (Windows only).</li>
+</ul>
+<p>This is great as we have very little to do to get logging to work. Adding additional logging providers is also just as simple:</p>
+<pre tabindex="0"><code>var builder = WebApplication.CreateBuilder();
+builder.Host.ConfigureLogging(logging =&gt;
+{
+    logging.AddApplicationInsightsTelemetry();
+});
+
+\\ or
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Logging.AddApplicationInsightsTelemetry();
+</code></pre><p>And that&rsquo;s it, your application is ready to start logging events. Now that we have logging in-place, let us discuss what to log.</p>
+<h2 id="what-information-to-log">What Information to Log</h2>
+<p>To determine what information to log, we must first determine what we would like to do with the logs. Logging is useful because we can go back in time and replay events as they occurred. Most of the time, we need to go back in time to diagnose some issue that occurred in our service.</p>
+<p>In other words, we should always log any information that will later help us debug an issue.</p>
+<p>For example, say there was an issue with our text messaging service where we are receiving compliants that messages are not being sent out.</p>
+<p>The first place to verify this would be the logs! The logs should have enough information on the paths taken for each application request. This will allow us to track the exact path taken by the requests. Only then can you determine if an error is occurring.</p>
+<p>Continuing our text messaging example, if the service did receive the call but it is erroring out, our logs should be have enough information to pinpoint the root cause. Preferably, the logs should have the stacktrace, if there is any.</p>
+<p>In summary, we should log enough information to track the progression of an event and any exceptions that may be occurring.</p>
+<h2 id="what-information-not-to-log">What Information Not to Log</h2>
+<p>The question then becomes what should we not log. This is not always be as straightforward as the more logs we have the better. However, if we log too much data, we will create extra noise that will distract us from the issue at hand. Therefore, we must find a balance.</p>
+<p>However, there is one thing that should never be logged and that is sensitive data. Sensitive data such as api keys and secrets should remain as secrets.</p>
+<p>Logs are widely and easily accessible by developers. Therefore, logs should never contain any sensitive, private, or personal information.</p>
+<p>Logs are for assisting in diagnosing issues and auditing application events, not for storing sensitive data.</p>
+<h2 id="summary">Summary</h2>
+<p>Logging is crucial to the success of any application. They assist in recording the health of a service and can help in determine weaknesses within the application. Nonetheless, logs are not a place to store sensitive information. Sensitive information should be stored in secure areas, far away from application logs.</p>
+
+</content>
+<p>
+  
+</p>
+
+  </main>
+  <footer><small>
+  Geovanni Gonzalez (CC BY 4.0) | Made with <a href="https://github.com/clente/hugo-bearcub">Bear Cub</a>
+</small></footer>
+
+    
+</body>
+
+</html>

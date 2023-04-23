@@ -21,7 +21,7 @@ Common functionality that is normally added to middleware includes exception han
 
 ASP.NET makes this very simple by providing built in middleware for such cases:
 
-```
+```csharp
 // If an unhandled exception occurs in the subsequent middleware components, the middleware will catch the exception, log it, and return a custom error response with the URL /error.
 app.UseExceptionHandler("/error");
 
@@ -31,7 +31,7 @@ app.UseLogging();
 
 This removes the need to add try/catch blocks to each and every controller:
 
-```
+```csharp
 public bool TestEndpoint()
 {
     try 
@@ -48,7 +48,7 @@ public bool TestEndpoint()
 ```
 and can be replaced with the following:
 
-```
+```csharp
 public bool TestEndpoint()
 {
     // do something
@@ -64,7 +64,7 @@ There's a lot more to be said about middleware. We can create our own, or use ma
 Another option to remove boilerplate code is to use Filters. What separates a filter from middleware is that a filter can be applied on an as-needed basis. They do not need to be applied globally -- unlike Middleware, although they can be -- but are normally applied on certain action methods or controllers as needed.
 
 For example, the following filter can validate if the user is a certain age. It uses reflection and assumes the controller has a paramater named ``age``:
-```
+```csharp
 public class VerifyAgeFilter : ActionFilterAttribute
 {
     public override void OnActionExecuting(ActionExecutingContext context)
@@ -105,7 +105,7 @@ One downside, or upside depending on how you look at it, is that middleware and 
 For example, if we apply a filter an action method, the filter does not have access to parameters or data within the method. The only workaround is to use reflection, like we did in the above example, but doing so will make our filter less reusable and make the code more cumbersome to work with.
 
 A great alternative to this situation is to use higher-order functions. The above method can be transformed into the following and wrapped in a ``Func``:
-```
+```csharp
 public IActionResult VerifyAge(int age, Func< IActionResult> func)
 {
     if (age < 18)
@@ -132,7 +132,7 @@ One last technique to remove boilerplate code is to use ``records``, introduced 
 
 For example, say we have a ``Person`` ``class`` such as the following:
 
-```
+```csharp
 public class Person 
 {
     public string FirstName { get; set; }
@@ -143,22 +143,22 @@ public class Person
 
 As a ```record```, it can be transformed into
 
-```
+```csharp
 public record Person(string FirstName, string LastName, int Age);
 ```
 
 Now, these 2 representations are not 100% equivalent, as ```records``` are immutable by default, however, when your ``class`` is immutable by design, ```records``` are a great alternative.
 
 Note: One great thing to look out for in C# 12 is partial constructors. Partial constructors will allow us to represent ``Person`` as:
-```
+```csharp
 public class Person(string FirstName, string LastName, int Age);
 ```
 And will even allow us to inject interfaces into partial constructors:
-```
+```csharp
 public class Car(ITire Tire);
 ```
 This is a feature I am looking forward to, as it removes the need to declare private readonly variables for all injected services:
-```
+```csharp
 private readonly ITire _tire;
 
 public class Car(ITire tire)
