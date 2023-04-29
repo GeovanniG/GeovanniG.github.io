@@ -48,7 +48,7 @@ To determine what information to log, we must first determine what we would like
 
 In other words, we should always log any information that will later help us debug an issue. 
 
-For example, say there was an issue with our text messaging service where we are receiving compliants that messages are not being sent out.
+For example, say there was an issue with our text messaging service where we are receiving complaints that messages are not being sent out.
 
 The first place to verify this would be the logs! The logs should have enough information on the paths taken for each application request. This will allow us to track the exact path taken by the requests. Only then can you determine if an error is occurring.
 

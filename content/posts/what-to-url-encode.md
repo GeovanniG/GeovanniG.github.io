@@ -5,7 +5,7 @@ draft: false
 ---
 
 When sending an HTTP request, we normally include may different bits of information. The request is composed of a URL, a method/verb, headers, and at times a body. The question then becomes what data is necessary to encode when submitting HTTP requests.
-
+  
 ## Background
 
 There have been many times in my career where we have failed to encode some information in the URL; this resulted in issues such as failing to authenticate a user. On further investigation, it was observed that either the username or password contained special characters. When the username or password were added to the URL as query parameters, e.g. `?username=test&password=!test#`, it was not processed correctly, and the user was not able to login.
@@ -77,6 +77,6 @@ Now that the URL has been encoding, it will be correctly processed by the servic
 
 When submitting HTTP requests, it is necessary to encode the URL, otherwise, our requests may be misunderstood. This is especially true when submitting requests from a more legacy system. Some modern frameworks and web browsers will automatically URL encode URLs on your behalf. However, it's still a good practice to manually encode URLs that you generate to ensure that they are properly formatted and compatible with all web browsers and servers.
 
-In this post we did not discuss the header and body of a request. The good news is that these can be left as is and do not need to be encoded. We are free to include spaces and all characters that should normally be encoded in a URL, as is. A perfect example of this is the Authorization header. This header contains spaces and special characters with no enoding necessary. The body does however need to conform to the format specified in the `Content-Type` header.
+In this post we did not discuss the header and body of a request. The good news is that these can be left as is and do not need to be encoded. We are free to include spaces and all characters that should normally be encoded in a URL, as is. A perfect example of this is the Authorization header. This header contains spaces and special characters with no encoding necessary. The body does however need to conform to the format specified in the `Content-Type` header.
 
 Thanks for reading!

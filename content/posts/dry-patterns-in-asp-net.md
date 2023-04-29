@@ -63,7 +63,7 @@ There's a lot more to be said about middleware. We can create our own, or use ma
 ## Filters
 Another option to remove boilerplate code is to use Filters. What separates a filter from middleware is that a filter can be applied on an as-needed basis. They do not need to be applied globally -- unlike Middleware, although they can be -- but are normally applied on certain action methods or controllers as needed.
 
-For example, the following filter can validate if the user is a certain age. It uses reflection and assumes the controller has a paramater named ``age``:
+For example, the following filter can validate if the user is a certain age. It uses reflection and assumes the controller has a parameter named ``age``:
 ```csharp
 public class VerifyAgeFilter : ActionFilterAttribute
 {
